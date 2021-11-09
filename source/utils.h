@@ -23,9 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "import.h"
 
-#define GAME "Warsow"
-#define BASEMOD "basewsw"
-#define PROTOCOL 22
+#define GAME "Warfork"
+#define BASEMOD "basewf"
+#define PROTOCOL 24
 
 typedef struct parse_state_s {
     qboolean set_color;
