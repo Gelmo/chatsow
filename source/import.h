@@ -150,6 +150,10 @@ enum
 	, STAT_MESSAGE_ALPHA
 	, STAT_MESSAGE_BETA
 
+	, STAT_IMAGE_CLASSACTION1
+	, STAT_IMAGE_CLASSACTION2
+	, STAT_IMAGE_DROP_ITEM
+
 	, GS_GAMETYPE_STATS_END = PS_MAX_STATS
 
 	, MAX_STATS = PS_MAX_STATS //64
@@ -158,6 +162,8 @@ enum
 #define SV_BITFLAGS_PURE		( 1<<0 )
 #define SV_BITFLAGS_RELIABLE		( 1<<1 )
 #define SV_BITFLAGS_TVSERVER		( 1<<2 )
+#define SV_BITFLAGS_HTTP			( 1<<3 )
+#define SV_BITFLAGS_HTTP_BASEURL	( 1<<4 )
 
 #define FRAMESNAP_FLAG_DELTA		( 1<<0 )
 #define FRAMESNAP_FLAG_ALLENTITIES	( 1<<1 )
@@ -300,36 +306,45 @@ typedef enum
 
 #define EV_INVERSE	128
 
-typedef struct entity_state_s {
+typedef struct entity_state_s
+{
 	int number;							// edict index
 
 	unsigned int svflags;
 
 	int type;							// ET_GENERIC, ET_BEAM, etc
-	qboolean linearProjectile;			// is sent inside "type" as ET_INVERSE flag
-	vec3_t linearProjectileVelocity;	// this is transmitted instead of origin when linearProjectile is true
+	bool linearMovement;				// is sent inside "type" as ET_INVERSE flag
+	union {
+		vec3_t linearMovementVelocity;		// this is transmitted instead of origin when linearProjectile is true
+		vec3_t linearMovementEnd;			// the end movement point for brush models
+	};
 
 	vec3_t origin;
 	vec3_t angles;
 
-	union {
+	union
+	{
 		vec3_t old_origin;				// for lerping
 		vec3_t origin2;					// ET_BEAM, ET_PORTALSURFACE, ET_EVENT specific
+		vec3_t linearMovementBegin;		// the starting movement point for brush models
 	};
 
 	unsigned int modelindex;
-	union {
+	union
+	{
 		unsigned int modelindex2;
 		int bodyOwner;					// ET_PLAYER specific, for dead bodies
 		int channel;					// ET_SOUNDEVENT
 	};
 
-	union {
+	union
+	{
 		int frame;
 		int ownerNum;					// ET_EVENT specific
 	};
 
-	union {
+	union
+	{
 		int counterNum;					// ET_GENERIC
 		int skinnum;					// for ET_PLAYER
 		int itemNum;					// for ET_ITEM
@@ -338,15 +353,22 @@ typedef struct entity_state_s {
 		int targetNum;					// ET_EVENT specific
 		int colorRGBA;					// ET_BEAM, ET_EVENT specific
 		int range;						// ET_LASERBEAM, ET_CURVELASERBEAM specific
-		int attenuation;				// ET_SOUNDEVENT
+		unsigned int linearMovementDuration;
 	};
 
+	float attenuation;					// should be <= 255/16.0 as this is sent as byte
+
+										// server will use this for sound culling in case
+										// the entity has an event attached to it (along with
+										// PVS culling)
+
 	int weapon;							// WEAP_ for players
-	qboolean teleported;				// the entity was teleported this snap (sent inside "weapon" as ET_INVERSE flag)
+	bool teleported;					// the entity was teleported this snap (sent inside "weapon" as ET_INVERSE flag)
 
 	unsigned int effects;
 
-	union {
+	union
+	{
 		// for client side prediction, 8*(bits 0-4) is x/y radius
 		// 8*(bits 5-9) is z down distance, 8(bits10-15) is z up
 		// GClip_LinkEntity sets this properly
@@ -362,8 +384,9 @@ typedef struct entity_state_s {
 	int events[2];
 	int eventParms[2];
 
-	union {
-		unsigned int linearProjectileTimeStamp;
+	union
+	{
+		unsigned int linearMovementTimeStamp;
 		int light;						// constant light glow
 	};
 
@@ -403,7 +426,7 @@ typedef struct entity_state_s {
 // fourth byte
 #define	U_SKIN16	( 1<<24 )
 #define	U_ANGLE3	( 1<<25 )     // for multiview, info need for culling
-#define	U_____UNUSED1	( 1<<26 )
+#define	U_ATTENUATION	( 1<<26 )
 #define	U_EFFECTS16	( 1<<27 )
 #define U_____UNUSED2	( 1<<28 )
 #define	U_FRAME16	( 1<<29 )     // frame is a short

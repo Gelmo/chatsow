@@ -227,9 +227,9 @@ void read_delta_entity(msg_t *msg, unsigned bits) {
 		solid = read_short( msg );
 
 	if( bits & U_MODEL )
-		read_byte( msg );
+		read_short( msg );
 	if( bits & U_MODEL2 )
-		read_byte( msg );
+		read_short( msg );
 
 	if( bits & U_FRAME8 )
 		read_byte( msg );
@@ -285,7 +285,7 @@ void read_delta_entity(msg_t *msg, unsigned bits) {
         read_pos_dummy(msg, NULL);
 
 	if( bits & U_SOUND )
-		read_byte( msg );
+		read_short( msg );
 
 	if( bits & U_EVENT ) {
 		int event = (qbyte)read_byte( msg );
@@ -298,6 +298,9 @@ void read_delta_entity(msg_t *msg, unsigned bits) {
 		if( event & EV_INVERSE )
 			read_byte( msg );
 	}
+
+	if( bits & U_ATTENUATION )
+		read_byte( msg );
 
 	if( bits & U_WEAPON )
 		read_byte( msg );
