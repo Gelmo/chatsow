@@ -313,7 +313,7 @@ typedef struct entity_state_s
 	unsigned int svflags;
 
 	int type;							// ET_GENERIC, ET_BEAM, etc
-	bool linearMovement;				// is sent inside "type" as ET_INVERSE flag
+	qboolean linearMovement;				// is sent inside "type" as ET_INVERSE flag
 	union {
 		vec3_t linearMovementVelocity;		// this is transmitted instead of origin when linearProjectile is true
 		vec3_t linearMovementEnd;			// the end movement point for brush models
@@ -363,7 +363,7 @@ typedef struct entity_state_s
 										// PVS culling)
 
 	int weapon;							// WEAP_ for players
-	bool teleported;					// the entity was teleported this snap (sent inside "weapon" as ET_INVERSE flag)
+	qboolean teleported;					// the entity was teleported this snap (sent inside "weapon" as ET_INVERSE flag)
 
 	unsigned int effects;
 
