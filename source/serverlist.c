@@ -65,8 +65,8 @@ typedef struct master_s {
 } master_t;
 
 static master_t masters[] = {
-    {"master1.forbidden.gg"},
-    {"master1.icy.gg"},
+    {"67.205.150.215"},
+    {"107.161.23.68"},
     {NULL}
 };
 
