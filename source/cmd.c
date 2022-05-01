@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "client.h"
 #include "cmd.h"
 
-#define CMD_STACK_SIZE 16
+#define CMD_STACK_SIZE 64
 
 typedef enum cmd_type_e {
     CT_NORMAL,
