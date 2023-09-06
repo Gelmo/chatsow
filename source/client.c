@@ -85,6 +85,7 @@ typedef struct client_s {
     unsigned int server_time;
 
     int bitflags;
+    char baseurl;
     int protocol;
     int spawn_count;
     int playernum;
@@ -207,6 +208,10 @@ void set_level(int id, char *new_level) {
 
 void set_bitflags(int id, int new_bitflags) {
     clients[id].bitflags = new_bitflags;
+}
+
+void set_baseurl(int id, char new_baseurl) {
+    clients[id].baseurl = new_baseurl;
 }
 
 void set_stat(int id, int player, int index, short value) {

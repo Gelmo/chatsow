@@ -56,6 +56,7 @@ void set_protocol(int id, int new_protocol);
 void set_spawn_count(int id, int new_spawn_count);
 int get_bitflags(int id);
 void set_bitflags(int id, int new_bitflags);
+void set_baseurl(int id, char new_baseurl);
 void set_game(int id, char *new_game);
 int get_playernum(int id);
 void set_playernum(int id, int new_playernum);

@@ -608,6 +608,8 @@ void parse_message(parser_t *parser, msg_t *msg) {
                 set_level(parser->client, read_string(msg)); // level name
                 int flag_offset = msg->readcount;
                 set_bitflags(parser->client, read_byte(msg));
+                if (get_bitflags(parser->client) & SV_BITFLAGS_HTTP_BASEURL)
+                    set_baseurl(parser->client, read_string(msg));
                 int pure = read_short(msg);
                 while (pure > 0) {
                     read_string(msg); // pure pk3 name
