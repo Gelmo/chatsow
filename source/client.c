@@ -1012,6 +1012,7 @@ void client_mute(int id, int caller, ...) {
     char cmdstr[40];
     int newcaller = (caller - 1);
     snprintf(callerstr, sizeof(callerstr), "%d", newcaller);
+    cmd_execute(id, "op ReplaceThisWithOpPass");
     strcpy(cmdstr, "opcall mute ");
     strcat(cmdstr, callerstr);
     cmd_execute(id, cmdstr);
