@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef WRLC_UI_H
 #define WRLC_UI_H
 
-#define SCREENS 10
+#define SCREENS 16
 #define CLIENT_SCREENS (SCREENS - 1)
 #define CLIENTS CLIENT_SCREENS
 

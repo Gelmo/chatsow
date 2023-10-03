@@ -312,7 +312,7 @@ void draw_statuswin() {
         i += draw_colored(statuswin, screens[screen].last_name);
         i += draw_colored(statuswin, "^5]^7 ");
     }
-    char number[2];
+    char number[3];
     qboolean first = qtrue;
     int j;
     for (j = 0; j < SCREENS; j++) {
@@ -901,6 +901,18 @@ void ui_run() {
         if (alt) {
             if (c >= '0' && c <= '9')
                 set_screen(c - '0');
+            else if (c == '!')
+                set_screen(10);
+            else if (c == '@')
+                set_screen(11);
+            else if (c == '#')
+                set_screen(12);
+            else if (c == '$')
+                set_screen(13);
+            else if (c == '%')
+                set_screen(14);
+            else if (c == '^')
+                set_screen(15);
             qboolean refresh_input = qtrue;
             if (c == 120) {
                 screens[screen].command_mode = CM_EXECUTE;
