@@ -18,7 +18,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include <libnotify/notify.h>
 #include <curses.h>
 
 #include <stdlib.h>
@@ -564,17 +563,12 @@ void ui_output_important(int client, char *format, ...) {
         screens[client + 1].important = qtrue;
         draw_statuswin();
     }
-    notify_init("chatsow");
     static char title[] = "chatsow(x)";
     title[strlen(title) - 2] = '1' + client;
     char *message = uncolor(string + len);
     char *p;
     for (p = message + strlen(message) - 1; p >= message && *p == '\n'; p--)
         *p = '\0';
-    NotifyNotification* notification = notify_notification_new(title, message, NULL);
-    notify_notification_set_timeout(notification, 5000);
-    notify_notification_show(notification, NULL);
-    g_object_unref(G_OBJECT(notification));
 }
 
 static void screen_init(screen_t *s) {

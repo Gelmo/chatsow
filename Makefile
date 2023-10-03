@@ -3,9 +3,8 @@ DEBUG = -g
 CFLAGS_COMMON = -O2 -Wall -fPIC -c $(DEBUG)
 CFLAGS = $(CFLAGS_COMMON)
 CFLAGS_PLUGINS = $(CFLAGS_COMMON)
-EXTRA_CFLAGS = $(shell pkg-config --cflags libnotify)
 LFLAGS_COMMON = -O2 -Wall $(DEBUG)
-LFLAGS = $(shell pkg-config --libs libnotify) -lncurses -lz -ldl -lm $(LFLAGS_COMMON)
+LFLAGS = -lncurses -lz -ldl -lm $(LFLAGS_COMMON)
 LFLAGS_PLUGINS = -shared $(LFLAGS_COMMON)
 
 PROGRAM = chatsow
@@ -64,7 +63,7 @@ endef
 
 define module_compiler
 $(BUILD)$(1).o: $(SOURCE)$(1).c $(THIS)
-	$(CC) $(EXTRA_CFLAGS) $(CFLAGS) $$< -o $$@
+	$(CC) $(CFLAGS) $$< -o $$@
 endef
 
 $(foreach module, $(MODULES), $(eval $(call module_depender,$(module))))
