@@ -270,7 +270,6 @@ const char *profanitylist[388] = {
     "cokpacker",
     "cokpirate",
     "cokranger",
-    "cunt",
     "dick bandit",
     "dick banger",
     "dick cowboy",
@@ -352,7 +351,6 @@ const char *profanitylist[388] = {
     "dyke",
     "fag",
     "faggot",
-    "fagot",
     "fairy",
     "fudge packer",
     "fudge-packer",
@@ -1028,8 +1026,6 @@ static void chat_command(client_t *c, int caller, char *command) {
             break;
         }
     }
-    if (command[0] == '!')
-        cmd_execute_public(c->id, caller, command + 1);
 }
 
 static void cmd_pr() {
