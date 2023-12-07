@@ -103,7 +103,7 @@ typedef struct client_s {
 
 static client_t clients[CLIENT_SCREENS];
 
-const char *profanitylist[385] = {
+const char *profanitylist[384] = {
     "arschficker",
     "ass bandit",
     "ass banger",
@@ -372,7 +372,6 @@ const char *profanitylist[385] = {
     "jigaboo",
     "jigga",
     "jigger",
-    "jiggs",
     "jiggyboo",
     "jigro",
     "kigger",
