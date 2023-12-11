@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "config.h"
 #include "global.h"
@@ -103,7 +104,7 @@ typedef struct client_s {
 
 static client_t clients[CLIENT_SCREENS];
 
-const char *profanitylist[384] = {
+static const char *profanitylist[] = {
     "arschficker",
     "ass bandit",
     "ass banger",
@@ -994,32 +995,19 @@ static void cmd_force_reconnect() {
 static void cmd_nop() {
 }
 
-char* strlwr(char* s)
-{
-    char* tmp = s;
-    for (;*tmp;++tmp) {
-        *tmp = tolower((unsigned char) *tmp);
-    }
-    return s;
-}
-
 void client_mute(int id, int caller, ...) {
-    char callerstr[40];
-    char cmdstr[40];
+    char cmdstr[512];
     int newcaller = (caller - 1);
-    snprintf(callerstr, sizeof(callerstr), "%d", newcaller);
     cmd_execute(id, "op ReplaceThisWithOpPass");
-    strcpy(cmdstr, "opcall mute ");
-    strcat(cmdstr, callerstr);
+    snprintf(cmdstr, sizeof(cmdstr), "opcall mute %d", newcaller);
     cmd_execute(id, cmdstr);
-    strcpy(cmdstr, "opcall vmute ");
-    strcat(cmdstr, callerstr);
+    snprintf(cmdstr, sizeof(cmdstr), "opcall vmute %d", newcaller);
     cmd_execute(id, cmdstr);
 }
 
 static void chat_command(client_t *c, int caller, char *command) {
     for (int i = 0; i < sizeof(profanitylist)/sizeof(profanitylist[0]); ++i) {
-        if (strstr(strlwr(command), profanitylist[i])) {
+        if (!strcasecmp(command, profanitylist[i])) {
             client_mute(c->id, caller);
             break;
         }
