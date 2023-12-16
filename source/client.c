@@ -1007,7 +1007,7 @@ void client_mute(int id, int caller, ...) {
 
 static void chat_command(client_t *c, int caller, char *command) {
     for (int i = 0; i < sizeof(profanitylist)/sizeof(profanitylist[0]); ++i) {
-        if (!strcasecmp(command, profanitylist[i])) {
+        if (strcasestr(command, profanitylist[i])) {
             client_mute(c->id, caller);
             break;
         }
